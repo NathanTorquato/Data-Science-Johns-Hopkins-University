@@ -32,3 +32,18 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+## Including Tables
+
+Trying to create a table using kable
+
+```{r results='asis'}
+knitr::kable(faithful[1:4,], caption = "Table with kable")
+```
+```{r results='asis'}
+print(xtable::xtable(faithful[1:4,], caption = "Table with xtable"), type="html")
+```
+
+```{r results='asis'}
+stargazer::stargazer(faithful[1:4,], type="html", title = "Table with stargazer")
+```
