@@ -1,0 +1,29 @@
+My first presentation with R
+========================================================
+author: Nathan Mimoso
+date: 16/08/2020
+autosize: true
+
+First Slide
+========================================================
+
+For more details on authoring R presentations please visit <https://support.rstudio.com/hc/en-us/articles/200486468>.
+
+- Bullet 1: **Bold**
+- Bullet 2: *Italic*
+- Bullet 3: ~~Strikethrough~~
+- Percebe-se que os símbolos são diferentes de *R Markdown*
+
+Slide With Code
+========================================================
+
+```{r}
+summary(cars)
+```
+
+Slide With Plot
+========================================================
+
+```{r, echo=FALSE}
+plot(cars)
+```
