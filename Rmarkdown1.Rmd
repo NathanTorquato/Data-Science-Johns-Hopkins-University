@@ -40,6 +40,7 @@ Trying to create a table using kable
 ```{r results='asis'}
 knitr::kable(faithful[1:4,], caption = "Table with kable")
 ```
+
 ```{r results='asis'}
 print(xtable::xtable(faithful[1:4,], caption = "Table with xtable"), type="html")
 ```
