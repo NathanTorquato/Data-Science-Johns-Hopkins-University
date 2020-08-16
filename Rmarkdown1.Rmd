@@ -48,3 +48,12 @@ print(xtable::xtable(faithful[1:4,], caption = "Table with xtable"), type="html"
 ```{r results='asis'}
 stargazer::stargazer(faithful[1:4,], type="html", title = "Table with stargazer")
 ```
+
+## Types of data science questions
+
+1. Descriptive: describe or summarize a set of data  
+2. Exploratory: examine the data and find relationships that weren't previously known  
+3. Inferential: use a relatively small sample of data to say something about the population at large  
+4. Predictive: use current and historical data to make predictions about future data  
+5. Causal: see what happens to one variable when we manipulate another variable  
+6. Mechanistic: understand the exact changes in variables that lead to exact changes in other variables
