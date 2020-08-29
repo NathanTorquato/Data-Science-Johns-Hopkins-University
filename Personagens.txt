@@ -1,0 +1,10 @@
+Personagem; Sexo; Idade Estimada
+Professor; M; 33
+Berlin; M; 40
+Moscou; M; 50
+Denver; M; 25
+Tóquio; F; 30
+Nairóbi; F; 25
+Rio; F; 25
+Oslo; M; 40
+Helsinque; M; 40
