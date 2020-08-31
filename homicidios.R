@@ -19,6 +19,63 @@ ggplot(df, aes(periodo))+
   ggtitle("Homicídios no Brasil por Região", subtitle = "Fonte: Atlas da Violência 2020") +
   labs(x="", y="")
 
+sum(subset(df, df$periodo == '2017')$valor)
+
+anos <- c()
+homicidios <- c()
+for(periodo in df$periodo){
+  anos <- c(anos, periodo)
+  homicidios <- c(homicidios, sum(df$valor[df$periodo == periodo]))
+}
+anos <- unique(anos)
+homicidios <- unique(homicidios)
+total_homicidios <- data.frame(anos, homicidios)
+total_homicidios$homicidiosRounded <- round(homicidios/1000, 1)
+
+ggplot(total_homicidios, aes(anos, homicidiosRounded, label=sprintf("%0.1f", round(homicidiosRounded, digits = 1))))+
+  geom_point()+
+  geom_line()+
+  geom_text(aes(y=homicidiosRounded, vjust=-1))+
+  ylim(c(0,70))
+  
+
+ggplot(subset(total_homicidios, total_homicidios$anos >= '1990'), aes(anos, homicidiosRounded))+
+  geom_point()+
+  geom_line()+
+  ylim(c(0,70))
+
+ggplot(subset(total_homicidios, total_homicidios$anos >= '2000'), aes(anos, homicidiosRounded, label=sprintf("%0.1f", round(homicidiosRounded, digits = 1))))+
+  geom_point()+
+  geom_line()+
+  geom_text(aes(y=homicidiosRounded), vjust=-.5)+
+  labs(x="", y="")+
+  ggtitle("Homicídios no Brasil desde 2000 (em milhares de pessoas)", subtitle = "Fonte: Atlas da Violência 2020")+
+  ylim(c(0,70))
+  
+ggplot(subset(total_homicidios, total_homicidios$anos >= '2000'), aes(anos, label=sprintf("%0.1f", round(homicidiosRounded, digits = 1))))+
+  geom_bar(aes(weight=homicidiosRounded), fill="#00BFC4")+
+  geom_text(aes(y=homicidiosRounded), vjust=-.5, col="#404040", size=4)+
+  labs(x="", y="")+
+  ggtitle("Homicídios no Brasil desde 2000 (em milhares de pessoas)", subtitle = "Fonte: Atlas da Violência 2020")+
+  ylim(c(0,70))
+
+ggplot(subset(total_homicidios, total_homicidios$anos >= '2010'), aes(anos, homicidiosRounded, label=sprintf("%0.1f", round(homicidiosRounded, digits = 1))))+
+  geom_point()+
+  geom_line()+
+  geom_text(aes(y=homicidiosRounded), vjust=-.5)+
+  labs(x="", y="")+
+  ggtitle("Homicídios no Brasil na década de 2010 (em milhares de pessoas)", subtitle = "Fonte: Atlas da Violência 2020")+
+  ylim(c(0,70))
+
+ggplot(subset(total_homicidios, total_homicidios$anos >= '2010'), aes(anos, label=sprintf("%0.1f", round(homicidiosRounded, digits = 1))))+
+  geom_bar(aes(weight=homicidiosRounded), fill="#00BFC4", width = .8)+
+  geom_text(aes(y=homicidiosRounded), vjust=-.5, col="#404040", size=4, )+
+  labs(x="", y="")+
+  ggtitle("Homicídios no Brasil na década de 2010 (em milhares de pessoas)", subtitle = "Fonte: Atlas da Violência 2020")+
+  ylim(c(0,70))
+
+#Como fazer gráfico com barras e linhas simultaneamente?
+
 df2 <- read.table("homicidios-genero-raca.csv", sep=";", header=TRUE)
 
 #wrong way
@@ -31,7 +88,8 @@ ggplot(df2, aes(periodo, valor, fill=genero))+
 ggplot(df2, aes(periodo, fill=genero))+
   geom_bar(aes(weight=valor))+
   ggtitle("Homicídios no Brasil por gênero", subtitle = "Fonte: Atlas da Violência 2020") +
-  labs(x="", y="")
+  labs(x="", y="", fill="")+
+  scale_fill_discrete(breaks = c("homem", "mulher"), labels = c("Homem", "Mulher"))
 
 #wrong way
 ggplot(df2, aes(periodo, valor, fill=raca))+
@@ -43,7 +101,8 @@ ggplot(df2, aes(periodo, valor, fill=raca))+
 ggplot(df2, aes(periodo, fill=raca))+
   geom_bar(aes(weight=valor))+
   ggtitle("Homicídios no Brasil por raça", subtitle = "Fonte: Atlas da Violência 2020") +
-  labs(x="", y="", fill="")
+  labs(x="", y="", fill="")+
+  scale_fill_discrete(breaks = c("nao negro", "negro"), labels=c("Não negro", "Negro"))
 
 #wrong way
 ggplot(df2, aes(periodo, valor, fill=raca))+
@@ -57,7 +116,8 @@ ggplot(df2, aes(periodo, fill=raca))+
   geom_bar(aes(weight=valor)) +
   ggtitle("Homicídios no Brasil por raça", subtitle = "Fonte: Atlas da Violência 2020") +
   labs(x="", y="", fill="")+
-  facet_wrap(~regiao)
+  facet_wrap(~regiao)+
+  scale_fill_discrete(breaks=c("nao negro", "negro"), labels=c("Não negro", "Negro"))
 
 #para fazer um procv: left_join
 
@@ -121,3 +181,30 @@ ggplot(df3, aes(nome))+
   labs(x="", y="", fill="")+
   ggtitle("Evolução do número de homicídios no Brasil entre 2000 e 2017", subtitle = "Fonte: Atlas da Violência 2020")+
   ylim(c(0,15000))
+
+#Fazer um for para pegar UF por UF e criar uma tabela?
+sum(df3$valor[df3$periodo == '2017' & df3$nome == 'SP'])/sum(df3$valor[df3$periodo == '2000' & df3$nome == 'SP'])
+sum(df3$valor[df3$periodo == '2017' & df3$nome == 'RJ'])/sum(df3$valor[df3$periodo == '2000' & df3$nome == 'RJ'])
+sum(df3$valor[df3$periodo == '2017' & df3$nome == 'DF'])/sum(df3$valor[df3$periodo == '2000' & df3$nome == 'DF'])
+sum(df3$valor[df3$periodo == '2017' & df3$nome == 'BA'])/sum(df3$valor[df3$periodo == '2000' & df3$nome == 'BA'])
+
+#Feito
+UF <- c()
+variacao <- c()
+for(nome in df3$nome){
+  UF <- c(UF, nome)
+  variacao <- c(variacao,(sum(df3$valor[df3$periodo == '2017' & df3$nome == nome]) - sum(df3$valor[df3$periodo == '2000' & df3$nome == nome]))/sum(df3$valor[df3$periodo == '2000' & df3$nome == nome]))
+}
+
+UF <- unique(UF)
+variacao <- unique(variacao)
+variacoes <- data.frame(UF, variacao)
+variacoes
+
+#Plotando as variações por Estado
+ggplot(variacoes, aes(UF))+
+  geom_bar(aes(weight=variacao))+
+  labs(x="", y="")
+
+#Problema dos gráficos anteriores: consideram somente o total de assassinatos
+#A população cresceu entre 2000 e 2017, impactando o significado do número de homicídios
