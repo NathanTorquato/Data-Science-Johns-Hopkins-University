@@ -74,7 +74,16 @@ ggplot(subset(total_homicidios, total_homicidios$anos >= '2010'), aes(anos, labe
   ggtitle("Homicídios no Brasil na década de 2010 (em milhares de pessoas)", subtitle = "Fonte: Atlas da Violência 2020")+
   ylim(c(0,70))
 
+
 #Como fazer gráfico com barras e linhas simultaneamente?
+ggplot(subset(total_homicidios, total_homicidios$anos >= '2010'), aes(x=anos, label=sprintf("%0.1f", round(homicidiosRounded, digits = 1))))+
+  geom_bar(aes(weight=homicidiosRounded), fill="#00BFC4", width = .8)+
+  geom_line(aes(y = homicidiosRounded), size=1.08, col="#404040")+
+  geom_text(aes(y = homicidiosRounded), vjust=-.5, col="#404040", size=4, )+
+  labs(x="", y="")+
+  ggtitle("Homicídios no Brasil na década de 2010 (em milhares de pessoas)", subtitle = "Fonte: Atlas da Violência 2020")+
+  ylim(c(0,70))
+
 
 df2 <- read.table("homicidios-genero-raca.csv", sep=";", header=TRUE)
 
